@@ -292,7 +292,7 @@
 				
 				if($this->use_unix_timestamp)
 				{
-					$fields	.=	$this->field_note ."create_date". $this->field_note . $this->field_note ."mod_date" . $this->field_note;
+					$fields	.=	$this->field_note ."create_date". $this->field_note .','. $this->field_note ."mod_date" . $this->field_note;
 					$values	.=	$this->now_unix_func . "," . $this->now_unix_func;
 				}
 				else
