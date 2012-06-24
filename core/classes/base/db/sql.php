@@ -49,10 +49,17 @@
 		var $now_func;
 		
 		/**
+		 * The function run to get the current datetime in unix timestamp format on our DB
+		 * @var string
+		 */
+		var $now_unix_func;
+		
+		/**
 		 * Suppress automatic create_date / mod_date population on insert / update
 		 * @var bool
 		 */
 		var $suppress_auto_timestamp	=	false;
+		var $use_unix_timestamp = false;
 
 		var $created_field	=	'create_date';
 		var $updated_field	=	'mod_date';
@@ -79,12 +86,14 @@
 				$this->field_note	=	"`";
 				$this->now_func		=	"NOW()";
 				$this->last_id		=	"last_insert_id()";
+				$this->now_unix_func =  "UNIX_TIMESTAMP()";
 			}
 			else if($this->db->mode == AFRAME_DB_MODE_MYSQLI)
 			{
 				$this->field_note	=	"`";
 				$this->now_func		=	"NOW()";
 				$this->last_id		=	"last_insert_id()";
+				$this->now_unix_func =  "UNIX_TIMESTAMP()";
 			}
 			else if($this->db->mode == AFRAME_DB_MODE_MSSQL)
 			{
@@ -210,7 +219,10 @@
 			}
 			else
 			{
-				$fields	.=	$this->field_note . $this->updated_field. $this->field_note ." = ". $this->now_func ." ";
+				if($this->use_unix_timestamp)
+					$fields	.=	$this->field_note . "mod_date". $this->field_note ." = ". $this->now_unix_func ." ";
+				else
+					$fields	.=	$this->field_note . "mod_date". $this->field_note ." = ". $this->now_func ." ";
 			}
 
 			$qry	=	"
@@ -277,8 +289,17 @@
 			}
 			else
 			{
-				$fields	.=	$this->field_note .$this->created_field. $this->field_note;
-				$values	.=	$this->now_func;
+				
+				if($this->use_unix_timestamp)
+				{
+					$fields	.=	$this->field_note ."create_date". $this->field_note . $this->field_note ."mod_date" . $this->field_note;
+					$values	.=	$this->now_unix_func . "," . $this->now_unix_func;
+				}
+				else
+				{
+					$fields	.=	$this->field_note ."create_date". $this->field_note;
+					$values	.=	$this->now_func;
+				}
 			}
 			
 			// build final query
