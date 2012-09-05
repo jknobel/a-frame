@@ -231,7 +231,7 @@
 				
 				if(!$dbc)
 				{
-					trigger_error('Database connection failed: ' . mysql_error(), E_USER_ERROR);
+					throw new Exception('Database connection failed: ' . mysql_error(), E_USER_ERROR);
 				}
 				
 				mysql_select_db($database, $dbc);
@@ -265,7 +265,7 @@
 				
 				if(!$dbc)
 				{
-					trigger_error('Database connection failed: ' . mysqli_error(), E_USER_ERROR);
+					throw new Exception('Database connection failed: ' . mysqli_error(), E_USER_ERROR);
 				}
 				
 				$this->fetch_mode	=	MYSQLI_ASSOC;
@@ -285,7 +285,7 @@
 				
 				if(!$dbc)
 				{
-					trigger_error('Database connection failed', E_USER_ERROR);
+					throw new Exception('Database connection failed', E_USER_ERROR);
 				}
 				
 				mssql_select_db($database, $dbc);
@@ -917,7 +917,7 @@
 		{
 			if($this->mode != AFRAME_DB_MODE_MYSQLI && $multi)
 			{
-				trigger_error('You are trying to run a multi-query in a database extension that does not support this feature. Please modify your code to NOT use multi_query or use MySQLi mode.', E_USER_ERROR);
+				throw new Exception('You are trying to run a multi-query in a database extension that does not support this feature. Please modify your code to NOT use multi_query or use MySQLi mode.', E_USER_ERROR);
 			}
 			
 			// make sure we're connected
@@ -949,14 +949,14 @@
 			{
 				if(!$res = mysql_query($query, $this->dbc))
 				{
-					trigger_error(mysql_error() . '<br/><br/>' . $query, E_USER_ERROR);
+					throw new Exception(mysql_error() . '<br/><br/>' . $query, E_USER_ERROR);
 				}
 			}
 			else if($this->mode == AFRAME_DB_MODE_MSSQL)
 			{
 				if(!$res = mssql_query($query, $this->dbc))
 				{
-					trigger_error('Query failed: <br/><br/>' . $query, E_USER_ERROR);
+					throw new Exception('Query failed: <br/><br/>' . $query, E_USER_ERROR);
 				}
 			}
 			else if($this->mode == AFRAME_DB_MODE_MYSQLI)
@@ -972,7 +972,7 @@
 				
 				if(!$res)
 				{
-					trigger_error(mysqli_error($this->dbc) . '<br/><br/>' . $query, E_USER_ERROR);
+					throw new Exception(mysqli_error($this->dbc) . '<br/><br/>' . $query, E_USER_ERROR);
 				}
 			}
 
