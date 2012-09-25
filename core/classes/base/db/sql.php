@@ -349,6 +349,22 @@
 		}
 		
 		/**
+		 * Get the last insert ID from the most recent query
+		 * 
+		 * @return mixed				The ID of the last object inserted
+		 */
+		
+		function last_insert_id()
+		{
+			if($this->db->mode == AFRAME_DB_MODE_MYSQLI)
+			{
+				return $this->db->dbc->insert_id;
+			}
+			
+			return null;
+		}
+		
+		/**
 		 * Get the last insert ID from table in base_model::$table
 		 * 
 		 * @param bool $run_query		If false, will just return the query to run without running it (will also
@@ -357,12 +373,7 @@
 		 * 								to get the last ID if $run_query == false
 		 */
 		function last_id($run_query = true)
-		{
-			if($this->db->mode == AFRAME_DB_MODE_MYSQLI)
-			{
-				return $this->db->dbc->insert_id;
-			}
-				
+		{				
 			// make SURE we get the ID from the right server
 			if($run_query)
 			{
