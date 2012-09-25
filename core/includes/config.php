@@ -60,6 +60,16 @@
 	include_once INCLUDES .'/https.php';
 	
 	include_once CLASSES .'/base/base.php';
+	
+	if(MULTIPLE_DB)
+	{
+		session_start();
+		
+		if(!isset($_SESSION['server_index']))
+			$_SESSION['server_index'] = 0;
+			
+		$config['db']['dsn'] = $GLOBALS['mysql_hosts'][$_SESSION['server_index']];
+	}
 
 	// now we decide which base_db class to use. this has to be done BEFORE base_model
 	// loads because it extends base_db =]
