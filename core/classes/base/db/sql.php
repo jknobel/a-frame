@@ -358,6 +358,11 @@
 		 */
 		function last_id($run_query = true)
 		{
+			if($this->db->mode == AFRAME_DB_MODE_MYSQLI)
+			{
+				return $this->db->dbc->insert_id;
+			}
+				
 			// make SURE we get the ID from the right server
 			if($run_query)
 			{
