@@ -975,7 +975,15 @@
 					throw new Exception(mysqli_error($this->dbc) . '<br/><br/>' . $query, E_USER_ERROR);
 				}
 			}
-
+			
+			if(QUERY_TEST_MODE)
+			{
+				if(!isset($GLOBALS['sql']))
+					$GLOBALS['sql'] = array();
+				
+				$GLOBALS['sql'][] = trim(str_replace("	", " ", $query));	
+			}	
+	
 			return $res;
 		}
 		
