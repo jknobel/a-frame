@@ -179,8 +179,8 @@
 			{
 				$mport	=	isset($this->params['master']['port']) ? $this->params['master']['port'] : '';
 				$sport	=	isset($this->params['slave']['port']) ? $this->params['slave']['port'] : '';
-				$this->connections[0]	=	$this->do_connect($this->params['master']['hostspec'], $this->params['username'], $this->params['password'], $this->params['database'], $mport, $persist);
-				$this->connections[1]	=	$this->do_connect($this->params['slave']['hostspec'], $this->params['username'], $this->params['password'], $this->params['database'], $sport, $persist);
+				$this->connections[0]	=	$this->do_connect($this->params['master']['hostspec'], $this->params['master']['username'], $this->params['master']['password'], $this->params['database'], $mport, $persist);
+				$this->connections[1]	=	$this->do_connect($this->params['slave']['hostspec'], $this->params['slave']['username'], $this->params['slave']['password'], $this->params['database'], $sport, $persist);
 			}
 			else
 			{
