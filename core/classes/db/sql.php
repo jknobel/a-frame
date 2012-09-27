@@ -142,6 +142,9 @@
 		 */
 		private $params;
 		
+		
+		private $hasWrittenData		=  false;
+		
 		/**
 		 * CTOR
 		 */
@@ -902,6 +905,11 @@
 			return $server;
 		}
 		
+		public function resetSlaveSelection()
+		{
+			$this->hasWrittenData = false;
+		}
+		
 		/**
 		 * Send a prepared query to the database and record it for debugging purposes. dies on error.
 		 * 
@@ -928,10 +936,11 @@
 			// running SELECTs and nothing else.
 			
 			// select the correct server
-			if($this->in_transaction || $this->determine_query_server($query) == 'master')
+			if($this->in_transaction || $this->hasWrittenData || $this->determine_query_server($query) == 'master')
 			{
 				// this is NOT a select OR we're in a transaction, use master
 				$this->use_master();
+				$this->hasWrittenData = true;
 			}
 			else
 			{
@@ -981,7 +990,7 @@
 				if(!isset($GLOBALS['sql']))
 					$GLOBALS['sql'] = array();
 				
-				$GLOBALS['sql'][] = trim(str_replace("	", " ", $query));	
+				$GLOBALS['sql'][] = ($this->replication ? '('. $this->using .') ' : '') . trim(str_replace("	", " ", $query)); 	
 			}	
 	
 			return $res;
