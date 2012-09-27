@@ -68,7 +68,7 @@
 		if(!isset($_SESSION['server_index']))
 			$_SESSION['server_index'] = 0;
 			
-		$config['db']['dsn'] = $GLOBALS['mysql_hosts'][$_SESSION['server_index']];
+		$config['db']['dsn'] = $config['mysql_hosts'][$_SESSION['server_index']];
 	}
 
 	// now we decide which base_db class to use. this has to be done BEFORE base_model
