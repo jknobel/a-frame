@@ -472,7 +472,7 @@
 						// we got a literal! if $rawlit is false (probably should be) escape the respective parameter
 						if(!$rawlit && !is_numeric($params[$p]))
 						{
-							$params[$p]	=	preg_replace('/[^a-z0-9=\-]/i', '', $params[$p]);
+							$params[$p]	=	preg_replace('/[^a-z0-9=\-,]/i', '', $params[$p]);
 						}
 						
 						// add our parameter to the query string
