@@ -345,6 +345,11 @@
 			return true;
 		}
 		
+		public function hasWrittenData()
+		{
+			return $this->hasWrittenData;
+		}
+		
 		/**
 		 * Make sure the next query is run on the master server.
 		 */
