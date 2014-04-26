@@ -35,6 +35,42 @@
 		{
 			// Should always call parent's init
 			parent::init();
+
+			date_default_timezone_set('America/Los_Angeles');
+
+			$this->file_handler	=	&$this->event->object('file_handler', array(&$this->event));
+
+			$this->layout('default');
+		}
+
+		function output($object, $raw = false)
+		{
+
+			header("Content-Type: application/json");			
+			$has_errors	=	$this->event->get('app_has_errors');
+
+			return output::do_output($object, $raw, $has_errors);
+		}
+
+		function throw_error($error_code, $message)
+		{
+			app_controller::ThrowError($error_code, $message);
+		}
+
+		static function ThrowError($code, $message, $severity = ERROR_SEVERITY_FATAL)
+		{
+			$error	=	array(
+				'code'		=>	$code,
+				'severity'	=>	$severity,
+				'msg'		=>	$message
+			);
+
+			error_log("Error: (".$code.") ".$message." - ".$_SERVER['REQUEST_URI']);
+
+			header("Content-Type: application/json");
+			$output	=	output::format_data(null, $error);
+			output::do_output($output, true, false);
+			die();
 		}
 	}
 ?>

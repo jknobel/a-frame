@@ -32,6 +32,28 @@
 		{
 			// Should be called every time, otherwise event object will not be available in model
 			$this->_init($event);
+
+			$this->use_unix_timestamp = true;
+			
+			$this->errors		=	&$this->event->get_ref('app_errors');
+			if(!is_array($this->errors))
+			{
+				$this->event->set('app_errors', array());
+			}
+			
+			$this->has_errors	=	&$this->event->get_ref('app_has_errors');
+			if(!is_bool($this->has_errors))
+			{
+				$this->event->set('app_has_errors', false);
+			}
+			
+			$this->security	=	&$this->event->library('security', array(&$this->event));
+			$this->file_handler	=	&$this->event->object('file_handler', array(&$this->event));
+		}
+
+		function throw_error($code, $error, $severity = ERROR_SEVERITY_FATAL)
+		{
+			app_controller::ThrowError($code, $error, $severity);
 		}
 	}
 ?>

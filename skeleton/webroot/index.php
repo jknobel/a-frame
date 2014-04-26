@@ -1,7 +1,6 @@
 <?
 	/**
-	 * This file is a traffic cop. It sends all traffic to ../index.php which passes the request off to Aframe. This is 
-	 * just here as a palceholder so webroot can be the document root and still have framework access.
+	 * This includes and runs Aframe, which processes the incoming request.
 	 * 
 	 * 
 	 * Copyright (c) 2009, Lyon Bros Enterprises, LLC. (http://www.lyonbros.com)
@@ -14,7 +13,16 @@
 	 * @subpackage	aframe.skeleton
 	 * @license		http://www.opensource.org/licenses/mit-license.php
 	 */
+
 	
-	$lbase	=	dirname(dirname(__FILE__));
-	include_once $lbase . '/index.php';
+	error_reporting(E_ALL ^ E_NOTICE);
+
+	require( 'library/php_error.php' );
+	$options = array('catch_ajax_errors' => 0, 'enable_saving' => 0);
+    \php_error\reportErrors($options);
+	
+	$app_base	=	dirname(__FILE__);
+	$core_base	=	$app_base . '/a-frame';
+	include_once $core_base . '/index.php';
+	
 ?>
