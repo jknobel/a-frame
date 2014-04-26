@@ -28,4 +28,6 @@
 	define('CRON_CONTROLLER', 'cron');				// default name for the built-in cron-job controller
 	
 	define('ROUTE_LIBRARY', false);					// set to a controller in the controllers/ directory to use custom routing
+
+	define('MULTIPLE_DB', false);
 ?>
