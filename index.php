@@ -67,4 +67,12 @@
 	   list($usec, $sec) =	explode(" ", microtime());
 	   return ((float)$usec + (float)$sec);
 	}
+
+	function jsx($data)
+	{
+		ob_end_clean();
+		header("Content-Type: application/json");
+		echo json_encode($data);
+		exit;
+	}
 ?>
