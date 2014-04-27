@@ -165,7 +165,7 @@
 			
 			// start an output buffer to capture framework output for later manipulation 
 			// such as HTML compression (if desired)
-			//ob_start();
+			ob_start();
 			
 			// Load and run our controller->action(args)
 			if($controller = &$event->controller($controller_name, array(&$event)))
@@ -229,11 +229,11 @@
 			}
 			
 			// get our completed output and... 
-//			$content	=	ob_get_contents();
-//			ob_end_clean();
+			$content	=	ob_get_contents();
+			ob_end_clean();
 			
 			// ...REGURGITATE!
-//			echo $content;
+			//echo $content;
 			
 			// any cleaning up we need to do
 			$controller->post();
